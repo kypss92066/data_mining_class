@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wnc</title>
+
+    <!--------loading bootstrap-------->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+   
+</head>
+<body>
+   
+<script>
+    function getData(pagename){
+        var req = new XMLHttpRequest();
+        req.open("get","/"+pagename);
+        req.onload = function(){
+            var content = document.getElementById("content");   
+            content.innerHTML = this.responseText;
+        };
+        req.send();
+
+    }
+
+    function get_atn_rssi(){
+
+        var req = new XMLHttpRequest();
+        req.open("get","/readercap_r420.json");
+        req.onload = function(){
+            const json = JSON.parse(req.responseText)
+            var select_obj = document.getElementById("rssi");
+            for (var i = 0; i < json.rssi_sens.length; i++){
+              $('#rssi').append('<option>'+json.rssi_sens[i].value+'</option>')
+            }
+
+            //select_obj.add('<option>'+json.rssi_sens[4].value+'</option>')
+            console.log(select_obj)
+        }
+        req.send()
+    }
+    $(document).ready(function(){
+      
+      console.log("111");
+       
+
+        var req = new XMLHttpRequest();
+        req.open("get","/readercap_r420.json");
+        req.onload = function(){
+            const json = JSON.parse(req.responseText)
+            var select_obj = document.getElementById("tx_power");
+            for (var i = 0; i < json.tx_power[i].length; i++){
+              $('#tx_power').append('<option>'+json.tx_power[i].value+'</option>')
+            }
+
+            //select_obj.add('<option>'+json.rssi_sens[4].value+'</option>')
+            console.log(json.tx_power[3].value)
+        }
+        req.send()
+        }
+      
+    )
+</script>
+
+<!--Navibar專區-->  
+    
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="/img/logo.png" width="200px" alt="">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+           
+            <!--Reader setting-->
+            <li class="nav-item dropdown" id="reader_setting">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+              ><img src="/img/button_start.png" width="20" />
+                Reader setting
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" onclick="getData('reader_modes.html')"/> Modes</a>
+                <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" onclick="getData('reader_attena.html')" />Antennas</a>
+                <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" onclick="getData('reader_trigger.html')"/> Triggers</a>
+                <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" onclick="getData('reader_lw.html')"/> Low Duty Cycle</a>
+              </div>  
+            </li>
+             <!--tag data setting-->
+            <li class="nav-item dropdown" id="tag_data_setting">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/img/button_start.png" width="20" /> Tag data
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" /> Common</a>
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />Socket</a>
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" /> Mqtt</a>
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />Https</a>
+                  </div>
+            </li>
+
+            <!--flitering-->
+              <li class="nav-item dropdown" id="flitering">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/img/button_start.png" width="20" />  Flitering
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />Tag Persist</a>
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />Tag Select</a>
+            <!--GPIO-->
+              <li class="nav-item dropdown"  id="gpio_setting">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="/img/button_start.png" width="20" /> GPI/O
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />GPI</a>
+                    <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />GPO</a>
+                   
+
+            <!--Admin-->
+                <li class="nav-item dropdown" id="admin">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="/img/button_start.png" width="20" /> Admin
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" /> Modes</a>
+                        <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" />Antennas</a>
+                        <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" /> Triggers</a>
+                        <a class="dropdown-item" href="#"> <img src="/img/button_start.png" width="20" /> Low Duty Cycle</a>
+                  </li>
+      
+                 
+
+<!--button按鈕專區-->
+
+           
+          </ul>
+          <button type="button" class="btn btn-secondary btn-sm mr-1"  onclick="getData('chart.html')">Show</button>
+          <button type="button" class="btn btn-secondary btn-sm mr-1" >Save</button>
+          <button type="button" class="btn btn-secondary btn-sm mr-1" >Save</button>
+          <button type="button" class="btn btn-secondary btn-sm mr-1" >Save</button>
+          <button type="button" class="btn btn-secondary btn-sm mr-1" >Save</button>
+
+        </div>
+      </nav>
+
+
+<!--Content專區-->
+
+
+        
+
+    <div id="content"></div>
+    
+
+
+    
+
+
+
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
